@@ -35,12 +35,6 @@ const validateUser = [
     .withMessage(`Last name ${lengthErr}`),
 ];
 
-exports.usersCreatePost = (req, res) => {
-  const { firstName, lastName } = req.body;
-  usersStorage.addUser({ firstName, lastName });
-  res.redirect("/");
-};
-
 exports.usersCreatePost = [
   validateUser,
   (req, res) => {
@@ -53,6 +47,33 @@ exports.usersCreatePost = [
     }
     const { firstName, lastName } = req.body;
     usersStorage.addUser({ firstName, lastName });
+    res.redirect("/");
+  },
+];
+
+//update
+exports.usersUpdateGet = (req, res) => {
+  const user = usersStorage.getUser(req.params.id);
+  res.render("updateUser", {
+    title: "Update user",
+    user: user,
+  });
+};
+
+exports.usersUpdatePost = [
+  validateUser,
+  (req, res) => {
+    const user = usersStorage.getUser(req.params.id);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("updateUser", {
+        title: "Update user",
+        user: user,
+        errors: errors.array(),
+      });
+    }
+    const { firstName, lastName } = req.body;
+    usersStorage.updateUser(req.params.id, { firstName, lastName });
     res.redirect("/");
   },
 ];
