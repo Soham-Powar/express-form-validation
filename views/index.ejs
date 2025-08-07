@@ -27,6 +27,16 @@
 				<% }); %>
 					<% } %>
 	</ul>
+	<h2>Search for a user</h2>
+	<form action="/search" method="GET">
+		<label for="name">Name:</label>
+		<input type="text" name="name" id="name" />
+
+		<label for="email">Email:</label>
+		<input type="text" name="email" id="email" />
+
+		<button type="submit">Search</button>
+	</form>
 	<a href="/create">Create a user</a>
 </body>
 
